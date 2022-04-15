@@ -1,60 +1,71 @@
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { toDoState } from "./atoms";
-import Board from "./Components/Board";
+import { motion } from "framer-motion";
+
 const Wrapper = styled.div`
-  display: flex;
   width: 100vw;
-  margin: 0 auto;
+  height: 100vh;
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-color: transparent;
 `;
-const Boards = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+const Box = styled(motion.div)`
+  width: 200px;
+  height: 200px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+
+  padding: 20px;
+`;
+const Circle = styled(motion.div)`
   width: 100%;
-  gap: 10px;
+  height: 100%;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
+const boxVars = {
+  start: {
+    opacity: 0,
+    scale: 0.5,
+    y: 10,
+  },
+  end: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      type: "spring",
+      duration: 0.5,
+      bounce: 0.5,
+      delayChildren: 0.5,
+      staggerChildren: 0.1,
+    },
+    y: 0,
+  },
+};
+const circleVars = {
+  start: {
+    opacity: 0,
+    y: 10,
+  },
+  end: { opacity: 1, y: 0 },
+};
 function App() {
-  const [toDos, setToDos] = useRecoilState(toDoState);
-  const onDragEnd = ({ destination, source }: DropResult) => {
-    if (!destination) return;
-    if (source.droppableId === destination?.droppableId) {
-      setToDos((oldToDos) => {
-        const boardCopy = [...oldToDos[source.droppableId]];
-        const taskObj = boardCopy[source.index];
-        boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, taskObj);
-        return { ...oldToDos, [source.droppableId]: boardCopy };
-      });
-    } else {
-      setToDos((oldToDos) => {
-        const sourceBoardCopy = [...oldToDos[source.droppableId]];
-        const taskObj = sourceBoardCopy[source.index];
-        const DestiBoardCopy = [...oldToDos[destination?.droppableId]];
-        sourceBoardCopy.splice(source.index, 1);
-        DestiBoardCopy.splice(destination?.index, 0, taskObj);
-        return {
-          ...oldToDos,
-          [source.droppableId]: sourceBoardCopy,
-          [destination?.droppableId]: DestiBoardCopy,
-        };
-      });
-    }
-  };
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Wrapper>
-        <Boards>
-          {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
-          ))}
-        </Boards>
-      </Wrapper>
-    </DragDropContext>
+    <Wrapper>
+      <Box variants={boxVars} initial="start" animate="end">
+        <Circle variants={circleVars} />
+        <Circle variants={circleVars} />
+        <Circle variants={circleVars} />
+        <Circle variants={circleVars} />
+      </Box>
+    </Wrapper>
   );
 }
 
