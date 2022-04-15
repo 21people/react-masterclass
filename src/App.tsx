@@ -15,7 +15,6 @@ const Box = styled(motion.div)`
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
