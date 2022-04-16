@@ -37,6 +37,10 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.2;
     background: linear-gradient(135deg, #e09, #d0e);
     color: black;
+
+    &::-webkit-scrollbar{
+      display: none;
+    }
   }
   ol, ul {
     list-style: none;
