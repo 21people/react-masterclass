@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
-import { darkTheme } from "./theme";
+import { theme } from "./theme";
 import { createGlobalStyle } from "styled-components";
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle` 
   @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap");
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -65,11 +65,10 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 `;
-
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
         <GlobalStyle />
         <App />
       </ThemeProvider>
